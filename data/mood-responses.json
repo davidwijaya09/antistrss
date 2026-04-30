@@ -1,0 +1,10 @@
+{
+  "overwhelmed": { "text": "Wajar banget kalau kamu merasa kewalahan. Beban yang kamu pikul itu nyata, dan kamu nggak harus pura-pura kuat.", "suggestion": "Coba tarik napas dalam 3 kali. Kamu nggak harus selesaikan semuanya sekarang." },
+  "sedih": { "text": "Sedih itu manusiawi. Kamu nggak perlu malu karena merasakannya.", "suggestion": "Boleh kok nangis. Kadang air mata itu cara tubuh bilang 'aku butuh istirahat'." },
+  "cemas": { "text": "Kecemasan itu sinyal dari tubuhmu. Kamu nggak sendirian merasakannya.", "suggestion": "Coba latihan napas di halaman Bernapas — itu bisa bantu menenangkan sistem sarafmu." },
+  "marah": { "text": "Marah itu valid. Ada sesuatu yang penting buat kamu yang terasa terancam.", "suggestion": "Coba tulis apa yang bikin marah di jurnal. Kadang mengeluarkannya lewat tulisan itu membantu." },
+  "kosong": { "text": "Merasa kosong itu berat dengan caranya sendiri. Kamu nggak harus selalu 'merasa sesuatu'.", "suggestion": "Nggak apa-apa kalau hari ini cuma bertahan. Itu sudah cukup." },
+  "lelah": { "text": "Kelelahan yang kamu rasakan itu nyata — bukan cuma fisik, tapi juga emosional.", "suggestion": "Kalau bisa, kasih dirimu izin untuk istirahat tanpa rasa bersalah." },
+  "biasa": { "text": "Hari yang biasa aja itu juga oke. Nggak setiap hari harus luar biasa.", "suggestion": "Mungkin ini waktu yang pas buat refleksi kecil atau nulis jurnal." },
+  "lumayan": { "text": "Senang dengarnya 🙂 Hari yang lumayan itu patut disyukuri.", "suggestion": "Coba catat satu hal kecil yang bikin hari ini lumayan — biar bisa diingat nanti." }
+}

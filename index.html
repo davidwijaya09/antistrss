@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Napas — Ruang Aman untuk Bernapas dan Menekan Emosi</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#7c6fea">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Teman digital untuk anak muda yang butuh ruang aman. Mood check-in, latihan napas, jurnal, dan motivasi harian.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Langsung ke konten utama</a>
+  <div id="three-bg" aria-hidden="true"></div>
+  <div id="aurora-follow" aria-hidden="true"></div>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="nav" role="navigation" aria-label="Menu utama">
+      <div class="nav-brand">🌿 Antistrss</div>
+      <div class="nav-links" role="tablist">
+        <button class="nav-btn active" data-page="home" role="tab" aria-selected="true">Beranda</button>
+        <button class="nav-btn" data-page="breathe" role="tab" aria-selected="false">Bernapas</button>
+        <button class="nav-btn" data-page="journal" role="tab" aria-selected="false">Jurnal</button>
+        <button class="nav-btn" data-page="steps" role="tab" aria-selected="false">Langkah Kecil</button>
+        <button class="nav-btn" data-page="motivasi" role="tab" aria-selected="false">Motivasi</button>
+        <div class="nav-dropdown">
+          <button class="nav-btn nav-dropdown-trigger" role="tab" aria-selected="false" aria-expanded="false">Wejangan ▾</button>
+          <div class="nav-dropdown-menu">
+            <button class="nav-dropdown-item" data-page="percintaan">💝 Percintaan</button>
+            <button class="nav-dropdown-item" data-page="masadepan">🚀 Masa Depan</button>
+          </div>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">🌙 Dark</button>
+      </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <section id="page-home" class="page active" role="tabpanel">
+      <div class="hero">
+        <p class="hero-greeting" id="greeting"></p>
+        <h1 class="hero-title">Kamu nggak harus kuat sendirian.</h1>
+        <p class="hero-sub">Ini ruang aman buat kamu. Nggak ada yang menilai di sini.</p>
+      </div>
+
+      <div class="mood-section">
+        <h2>Gimana perasaanmu hari ini?</h2>
+        <div class="mood-grid">
+          <button class="mood-btn" data-mood="overwhelmed">
+            <span class="mood-emoji">😵‍💫</span>
+            <span>Overwhelmed</span>
+          </button>
+          <button class="mood-btn" data-mood="sedih">
+            <span class="mood-emoji">😢</span>
+            <span>Sedih</span>
+          </button>
+          <button class="mood-btn" data-mood="cemas">
+            <span class="mood-emoji">😰</span>
+            <span>Cemas</span>
+          </button>
+          <button class="mood-btn" data-mood="marah">
+            <span class="mood-emoji">😤</span>
+            <span>Marah</span>
+          </button>
+          <button class="mood-btn" data-mood="kosong">
+            <span class="mood-emoji">😶</span>
+            <span>Kosong</span>
+          </button>
+          <button class="mood-btn" data-mood="lelah">
+            <span class="mood-emoji">😮‍💨</span>
+            <span>Lelah</span>
+          </button>
+          <button class="mood-btn" data-mood="biasa">
+            <span class="mood-emoji">😐</span>
+            <span>Biasa aja</span>
+          </button>
+          <button class="mood-btn" data-mood="lumayan">
+            <span class="mood-emoji">🙂</span>
+            <span>Lumayan</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mood Response -->
+      <div id="mood-response" class="mood-response hidden">
+        <div class="response-card">
+          <p class="response-text" id="response-text"></p>
+          <p class="response-suggestion" id="response-suggestion"></p>
+          <button class="btn-primary" id="btn-breathe-now">Coba latihan napas →</button>
+        </div>
+      </div>
+
+      <!-- Daily Motivasi -->
+      <div class="daily-motivasi">
+        <div class="daily-motivasi-card">
+          <p class="daily-motivasi-label">💡 Motivasi Hari Ini</p>
+          <p class="daily-motivasi-text" id="daily-motivasi-text"></p>
+          <p class="daily-motivasi-author" id="daily-motivasi-author"></p>
+        </div>
+      </div>
+
+      <!-- Daily Quote -->
+      <div class="quote-section">
+        <div class="quote-card">
+          <p class="quote-text" id="daily-quote"></p>
+          <button class="quote-refresh" id="refresh-quote">🔄 Kata lain</button>
+        </div>
+      </div>
+
+      <!-- Mood History -->
+      <div class="history-section">
+        <h2>Jejak Perasaanmu</h2>
+        <div id="mood-history" class="mood-history"></div>
+        <p class="history-empty" id="history-empty">Belum ada catatan. Mulai dengan pilih perasaanmu di atas 💛</p>
+      </div>
+
+      <!-- Settings: Reminder + Data Tools -->
+      <div class="settings-section">
+        <h2>⚙️ Pengaturan</h2>
+
+        <div class="setting-card">
+          <div class="setting-info">
+            <h4>🔔 Reminder Harian</h4>
+            <p>Ingatkan kamu untuk check-in mood & journaling setiap pagi (09:00) dan malam (20:00)</p>
+          </div>
+          <label class="toggle-switch" aria-label="Aktifkan reminder harian">
+            <input type="checkbox" id="reminder-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-card">
+          <div class="setting-info">
+            <h4>💾 Backup & Restore Data</h4>
+            <p>Export semua data (mood, jurnal) ke file JSON, atau import dari backup sebelumnya</p>
+          </div>
+          <div class="setting-actions">
+            <button class="btn-small" id="btn-export">📦 Export</button>
+            <button class="btn-small" id="btn-import">📂 Import</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BREATHE PAGE -->
+    <section id="page-breathe" class="page">
+      <div class="breathe-container">
+        <h2>Latihan Bernapas</h2>
+        <p class="breathe-desc">Ikuti lingkaran ini. Tarik napas saat membesar, tahan, lalu buang saat mengecil.</p>
+        
+        <div class="breathe-techniques">
+          <button class="technique-btn active" data-technique="478">4-7-8 Relaksasi</button>
+          <button class="technique-btn" data-technique="box">Box Breathing</button>
+          <button class="technique-btn" data-technique="simple">Sederhana</button>
+        </div>
+
+        <div class="breathe-visual">
+          <button class="breathe-circle" id="breathe-circle" aria-label="Klik untuk mulai atau berhenti latihan napas">
+            <span class="breathe-text" id="breathe-text">Mulai</span>
+            <span class="breathe-count" id="breathe-count"></span>
+            <span class="breathe-cycle-info" id="breathe-cycle-info"></span>
+          </button>
+        </div>
+        <span id="cycle-count" style="display:none">0</span>
+      </div>
+    </section>
+
+    <!-- JOURNAL PAGE -->
+    <section id="page-journal" class="page">
+      <div class="journal-container">
+        <h2>Jurnal Perasaan</h2>
+        <p class="journal-desc">Tulis apa aja yang kamu rasakan. Ini cuma buat kamu sendiri — tersimpan di perangkatmu.</p>
+        
+        <div class="journal-prompts">
+          <p>Butuh bantuan mulai? Coba jawab salah satu:</p>
+          <div class="prompt-chips">
+            <button class="prompt-chip" data-prompt="Hari ini aku merasa...">Hari ini aku merasa...</button>
+            <button class="prompt-chip" data-prompt="Yang bikin aku berat adalah...">Yang bikin aku berat...</button>
+            <button class="prompt-chip" data-prompt="Kalau aku bisa bilang ke diriku sendiri...">Pesan buat diriku...</button>
+            <button class="prompt-chip" data-prompt="Satu hal kecil yang aku syukuri hari ini...">Hal yang kusyukuri...</button>
+          </div>
+        </div>
+
+        <div class="journal-editor">
+          <textarea id="journal-input" placeholder="Tulis di sini... ini ruangmu." rows="8" aria-label="Tulis jurnal perasaanmu"></textarea>
+          <div class="journal-actions">
+            <button class="btn-primary" id="btn-save-journal">Simpan 💛</button>
+          </div>
+        </div>
+
+        <div class="journal-entries" id="journal-entries">
+          <h3>Catatan Sebelumnya</h3>
+          <div id="entries-list"></div>
+          <p class="entries-empty" id="entries-empty">Belum ada catatan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEPS PAGE -->
+    <section id="page-steps" class="page">
+      <div class="steps-container">
+        <h2>Langkah Kecil</h2>
+        <p class="steps-desc">Kamu nggak harus langsung selesaikan semuanya. Cukup satu langkah kecil hari ini.</p>
+        
+        <div class="steps-categories">
+          <button class="step-cat active" data-cat="all">Semua</button>
+          <button class="step-cat" data-cat="kerja">🏢 Kerja</button>
+          <button class="step-cat" data-cat="keluarga">👨‍👩‍👧 Keluarga</button>
+          <button class="step-cat" data-cat="diri">🧘 Diri Sendiri</button>
+          <button class="step-cat" data-cat="arah">🧭 Cari Arah</button>
+        </div>
+
+        <div class="steps-list" id="steps-list"></div>
+
+        <!-- Crisis Help -->
+        <div class="crisis-card">
+          <h3>🆘 Butuh bantuan lebih?</h3>
+          <p>Kalau kamu merasa sangat kewalahan atau punya pikiran untuk menyakiti diri sendiri, tolong hubungi:</p>
+          <div class="crisis-contacts">
+            <a href="tel:119" class="crisis-link">📞 119 ext 8 — Into The Light</a>
+            <a href="https://www.intothelightid.org" class="crisis-link" target="_blank" rel="noopener">🌐 intothelightid.org</a>
+            <a href="tel:021-7884-5555" class="crisis-link">📞 LSM Jangan Bunuh Diri: 021-7884-5555</a>
+          </div>
+          <p class="crisis-note">Kamu berharga. Minta tolong itu berani, bukan lemah.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOTIVASI PAGE -->
+    <section id="page-motivasi" class="page">
+      <div class="motivasi-container">
+        <h2>✨ Kata-Kata Motivasi</h2>
+        <p class="motivasi-desc">Dari mereka yang pernah jatuh, bangkit, dan menginspirasi jutaan orang.</p>
+
+        <div class="motivasi-categories">
+          <button class="moti-cat active" data-mcat="all">Semua</button>
+          <button class="moti-cat" data-mcat="kehidupan">🌱 Kehidupan</button>
+          <button class="moti-cat" data-mcat="kegagalan">💪 Kegagalan</button>
+          <button class="moti-cat" data-mcat="keberanian">🔥 Keberanian</button>
+          <button class="moti-cat" data-mcat="diri">🧘 Diri Sendiri</button>
+        </div>
+
+        <div class="motivasi-featured" id="motivasi-featured"></div>
+
+        <button class="btn-primary motivasi-shuffle" id="btn-shuffle-quote">🎲 Tampilkan yang lain</button>
+
+        <div class="motivasi-list" id="motivasi-list"></div>
+      </div>
+    </section>
+
+    <!-- PERCINTAAN PAGE -->
+    <section id="page-percintaan" class="page">
+      <div class="percintaan-container">
+        <h2>💝 Wejangan Percintaan</h2>
+        <p class="percintaan-desc">Memilih pasangan hidup itu keputusan besar. Ini wejangan supaya kamu nggak salah langkah.</p>
+
+        <div class="percintaan-categories">
+          <button class="love-cat active" data-lcat="all">Semua</button>
+          <button class="love-cat" data-lcat="pendekatan">🌹 Pendekatan</button>
+          <button class="love-cat" data-lcat="memilih">🔍 Memilih Pasangan</button>
+          <button class="love-cat" data-lcat="diri">🪞 Siapkan Dirimu</button>
+          <button class="love-cat" data-lcat="bijak">🧠 Bijak dalam Cinta</button>
+        </div>
+
+        <div class="percintaan-featured" id="percintaan-featured"></div>
+
+        <button class="btn-primary percintaan-shuffle" id="btn-shuffle-love">🎲 Wejangan lain</button>
+
+        <div class="percintaan-list" id="percintaan-list"></div>
+      </div>
+    </section>
+
+    <!-- MASA DEPAN PAGE -->
+    <section id="page-masadepan" class="page">
+      <div class="masadepan-container">
+        <h2>🚀 Wejangan Masa Depan</h2>
+        <p class="masadepan-desc">Untuk kamu yang merasa kehilangan arah — ini kompas kecil dari mereka yang pernah tersesat lalu menemukan jalannya.</p>
+
+        <div class="masadepan-categories">
+          <button class="future-cat active" data-fcat="all">Semua</button>
+          <button class="future-cat" data-fcat="karir">💼 Karir</button>
+          <button class="future-cat" data-fcat="tujuan">🎯 Tujuan Hidup</button>
+          <button class="future-cat" data-fcat="keuangan">💰 Keuangan</button>
+          <button class="future-cat" data-fcat="mental">🧠 Mindset</button>
+        </div>
+
+        <div class="masadepan-featured" id="masadepan-featured"></div>
+
+        <button class="btn-primary masadepan-shuffle" id="btn-shuffle-future">🎲 Wejangan lain</button>
+
+        <div class="masadepan-list" id="masadepan-list"></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
